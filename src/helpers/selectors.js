@@ -13,3 +13,15 @@ export function getAppointmentsForDay(state, day) {
   })
   return objectsArray
 }
+
+export function getInterview(state, interview) {
+  if (interview === null) {
+    return null
+  }
+  const interviewObject = {}
+  interviewObject.student = interview.student
+  const interviewerId = interview.interviewer
+  const interviewerObject = state.interviewers[interviewerId]
+  interviewObject.interviewer = interviewerObject
+  return interviewObject
+}
