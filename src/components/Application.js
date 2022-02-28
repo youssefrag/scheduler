@@ -6,7 +6,7 @@ import "components/Application.scss";
 
 import DayList from "./DayList"
 import Appointment from "./Appointment"
-import { getAppointmentsForDay, getInterview } from 'helpers/selectors'
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from 'helpers/selectors'
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -15,6 +15,30 @@ export default function Application(props) {
     appointments: {},
     interviewers: {},
   });
+
+  async function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments})
+    const res = await axios.put(`http://localhost:8001/api/appointments/${id}`, { interview: interview })
+  }
+
+  // async function deleteInterview(id) {
+  //   const appointment = {
+  //     ...state.appointments[id],
+  //     interview: null
+  //   };
+  //   const appointments = {
+  //     ...state.appointments,
+  //     [id]: appointment
+  //   };
+  // }
 
   const setDay = day => {
     setState({...state, day})
@@ -40,6 +64,8 @@ export default function Application(props) {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        bookInterview={bookInterview}
+        interviewers={getInterviewersForDay(state, state.day)}
       />
     );
   });
@@ -70,7 +96,11 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        <Appointment key="last" time="5pm" />
+        <Appointment 
+          key="last" 
+          time="5pm"
+          bookInterview={bookInterview}
+        />
       </section>
     </main>
   );
