@@ -21,6 +21,7 @@ export default function useVisualMode(initial) {
     history.pop()
     setHistory(history)
     setMode(history[history.length - 1])
+    console.log('history:', history)
   }
 
   return { mode, transition, back };
