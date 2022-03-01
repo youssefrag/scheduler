@@ -18,12 +18,10 @@ export function getInterview(state, interview) {
   if (interview === null) {
     return null
   }
-  const interviewObject = {}
-  interviewObject.student = interview.student
-  const interviewerId = interview.interviewer
-  const interviewerObject = state.interviewers[interviewerId]
-  interviewObject.interviewer = interviewerObject
-  return interviewObject
+  return {
+    ...interview,
+    interviewer: state.interviewers[interview.interviewer]
+  }
 }
 
 export function getInterviewersForDay(state, day) {

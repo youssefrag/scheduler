@@ -13,7 +13,7 @@ export default function useApplicationData(useApplicationData) {
     setState({...state, day})
   };
 
-  async function bookInterview(id, interview) {
+  function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -22,11 +22,11 @@ export default function useApplicationData(useApplicationData) {
       ...state.appointments,
       [id]: appointment
     };
-    setState({...state, appointments})
-    await axios.put(`http://localhost:8001/api/appointments/${id}`, { interview: interview })
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview: interview })
+    .then(() => setState({...state, appointments}))
   }
 
-  async function cancelInterview(id) {
+  function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -35,8 +35,9 @@ export default function useApplicationData(useApplicationData) {
       ...state.appointments,
       [id]: appointment
     };
-    setState({...state, appointments})
-    await axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    .then(() => setState({...state, appointments}))
   }
 
   useEffect(() => {
