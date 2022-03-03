@@ -9,12 +9,6 @@ export default function useApplicationData(useApplicationData) {
     interviewers: {},
   });
 
-  const spots = function() {
-    for (let appointment of state.day.appointments) {
-      console.log(appointment)
-    }
-  }
-
   const setDay = day => {
     setState({...state, day})
   };

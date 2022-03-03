@@ -28,7 +28,7 @@ export default function Appointment(props) {
   );
 
   function save(name, interviewer) {
-    if (name === null || interviewer === null) {
+    if (interviewer === null) {
       return
     }
     const interview = {
